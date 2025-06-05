@@ -1,0 +1,10 @@
+POST http://localhost:3000/api/add
+Content-Type: application/json
+
+{
+  "userid": 123123,
+  "description": "Hamburger",
+  "category": "food",
+  "sum": 12.5,
+  "date": "2025-06-05"
+}
