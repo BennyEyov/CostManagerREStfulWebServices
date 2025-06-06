@@ -1,20 +1,3 @@
-// const express = require('express');
-// const app = express();
-// const aboutRoute = require('./routes/aboutRoute');
-// const costRoutes = require('./routes/costRoutes');
-// const userRoutes = require('./routes/userRoutes');
-
-// app.use(express.json());
-// app.use('/api/about', aboutRoute);
-// app.use('/api/', costRoutes);
-// app.use('/api/users', userRoutes);
-
-// app.get('/', (req, res) => {
-//   res.send('API is Running');
-// });
-
-// module.exports = app;
-
 
 require('dotenv').config();
 const express = require('express');
@@ -41,8 +24,5 @@ app.get('/',(req,res)=>{
 });
 
 const PORT = process.env.PORT || 3000;
-// app.listen(PORT, ()=>{
-//     console.log(`Server running on port ${PORT}`);
-// });
 
 module.exports = app;
