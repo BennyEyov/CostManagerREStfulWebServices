@@ -1,9 +1,22 @@
+/**
+ * @module userRoutes
+ * @description Express router module for user-related operations.
+ */
+
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User'); // Mongoose model for users
 const Cost = require('../models/Cost'); // Mongoose model for cost entries
 
-// Get a user's info along with the total of all their costs
+/**
+ * GET /users/:id
+ * @summary Retrieves a user's information along with the total of all their costs.
+ * @route GET /users/{id}
+ * @param {number} req.params.id - The user's unique numeric ID.
+ * @returns {Object} 200 - User data including total costs.
+ * @returns {Object} 404 - User not found.
+ * @returns {Object} 500 - Server error with error message.
+ */
 router.get('/users/:id', async (req,res)=>{
     const {id} = req.params;
 
@@ -28,7 +41,18 @@ router.get('/users/:id', async (req,res)=>{
     }
 });
 
-// Create a new user
+
+/**
+ * POST /users
+ * @summary Creates a new user.
+ * @route POST /users
+ * @param {Object} req.body - The user data.
+ * @param {number} req.body.id - Unique numeric ID of the user.
+ * @param {string} req.body.first_name - First name of the user.
+ * @param {string} req.body.last_name - Last name of the user.
+ * @returns {Object} 201 - Created user object.
+ * @returns {Object} 400 - Validation error or duplicate ID.
+ */
 router.post('/users', async (req,res)=>{
     try{
         // Attempt to create a user with the provided request body        
@@ -44,6 +68,24 @@ router.post('/users', async (req,res)=>{
     }
 });
 
+
+// Uncomment and document the following block if/when you enable the cost-creation endpoint.
+/*
+/**
+ * POST /users
+ * @summary Adds a cost entry for an existing user.
+ * @route POST /users
+ * @param {Object} req.body - Cost entry data.
+ * @param {number} req.body.userid - User's ID to link the cost.
+ * @param {string} req.body.description - Description of the cost.
+ * @param {string} req.body.category - Category of the cost.
+ * @param {number} req.body.sum - Amount of the cost.
+ * @param {string|Date} req.body.date - Date of the cost.
+ * @returns {Object} 201 - Cost added successfully.
+ * @returns {Object} 400 - Missing required field or validation error.
+ * @returns {Object} 404 - User not found.
+ * @returns {Object} 500 - Server error.
+ */
 // router.post('/users', async (req,res) =>{
 //     const {userid, description, category, sum, date} = req.body;
 

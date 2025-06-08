@@ -1,3 +1,8 @@
+/**
+ * @file api.test.js
+ * @description Integration tests for Express API routes: /about, /add, /report, /users, and /users/:id.
+ */
+
 require('dotenv').config();
 const mongoose = require('mongoose');
 const request = require('supertest');
@@ -123,6 +128,10 @@ describe('POST /api/users', ()=>{
 });
 
 describe('GET /api/users/:id', ()=>{
+    /**
+     * Test user used for GET /api/users/:id
+     * @type {{id: number, first_name: string, last_name: string, birthday: string, marital_status: string}}
+     */
     const testUser = {
         id:9999,
         first_name: 'Test',
@@ -131,6 +140,10 @@ describe('GET /api/users/:id', ()=>{
         marital_status: 'single'
     };
 
+    /**
+     * Sample cost entries for test user
+     * @type {Array<{userid: number, description: string, category: string, sum: number, date: string}>}
+     */
     const testCosts = [
         {
             userid: 9999,

@@ -1,3 +1,8 @@
+/**
+ * @module costRoutes
+ * @description Express router module for handling cost-related endpoints.
+ */
+
 // Import the Express framework
 const express = require('express');
 // Create a new router instance
@@ -5,7 +10,18 @@ const router = express.Router();
 // Import the Mongoose model for Cost items
 const Cost = require('../models/Cost');
 
-// Adds a new cost item to the database
+/**
+ * POST /add
+ * @summary Adds a new cost item to the database.
+ * @route POST /add
+ * @param {string} req.body.description - Description of the cost.
+ * @param {string} req.body.category - Cost category (e.g., food, health).
+ * @param {string} req.body.userid - ID of the user.
+ * @param {number} req.body.sum - Cost amount.
+ * @param {string|Date} [req.body.date] - Optional date of the cost (defaults to current date).
+ * @returns {Object} 200 - The saved cost item.
+ * @returns {Object} 500 - Server error with error message.
+ */
 router.post('/add', async (req,res)=>{
     try{
         // Destructure fields from the request body
@@ -28,7 +44,17 @@ router.post('/add', async (req,res)=>{
     }
 });
 
-// Returns a monthly cost report grouped by category
+/**
+ * GET /report
+ * @summary Returns a monthly cost report grouped by category.
+ * @route GET /report
+ * @param {string} req.query.id - User ID.
+ * @param {number} req.query.year - Year of the report (e.g., 2025).
+ * @param {number} req.query.month - Month of the report (1–12).
+ * @returns {Object} 200 - JSON report object with grouped costs.
+ * @returns {Object} 400 - Missing required query parameters.
+ * @returns {Object} 500 - Server error with error message.
+ */
 router.get('/report', async (req,res)=>{
     // Destructure query parameters
     const {id, year, month}= req.query;

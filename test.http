@@ -1,10 +1,52 @@
-POST http://localhost:3000/api/add
-Content-Type: application/json
+# POST http://localhost:3000/api/add
+# Content-Type: application/json
 
-{
-  "userid": 123123,
-  "description": "Hamburger",
-  "category": "food",
-  "sum": 12.5,
-  "date": "2025-06-05"
-}
+# {
+#   "userid": 123123,
+#   "description": "Hamburger",
+#   "category": "food",
+#   "sum": 12.5,
+#   "date": "2025-06-05"
+# }
+
+# POST http://localhost:3000/api/add
+# Content-Type: application/json
+
+# {
+#   "userid": 989897,
+#   "description": "Hamburger",
+#   "category": "food",
+#   "sum": 37.5,
+#   "date": "2025-06-08"
+# }
+
+# POST https://costmanagerrestfulwebservices.onrender.com/api/add
+# Content-Type: application/json
+
+# {
+#   "userid": 989897,
+#   "description": "Hamburger",
+#   "category": "food",
+#   "sum": 37.5,
+#   "date": "2025-06-08"
+# }
+
+# POST https://costmanagerrestfulwebservices.onrender.com/api/users
+# Content-Type: application/json
+
+# {
+# "id": 552525,
+# "first_name": "Tim",
+# "last_name": "Dan",
+# "birthday": "1994-12-19",
+# "marital_status": "single"
+# }
+
+GET https://costmanagerrestfulwebservices.onrender.com/api/about
+
+
+# GET http://localhost:3000/api/report/?id=123123&year=2025&month=6
+
+
+# GET https://costmanagerrestfulwebservices.onrender.com/api/report/?id=989897&year=2025&month=6
+
