@@ -4,6 +4,8 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 
+console.log('Connecting to MongoDB with URI:', process.env.MONGO_URI);
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected to DB:', mongoose.connection.name))
   .catch(err => console.error(err));
