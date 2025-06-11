@@ -1,60 +1,51 @@
-/**
- * @module costRoutes
- * @description Express router module for handling cost-related endpoints.
- */
-
 // Import the Express framework
 const express = require('express');
 // Create a new router instance
 const router = express.Router();
 // Import the Mongoose model for Cost items
 const Cost = require('../models/Cost');
+// Import the Mongoose model for User items
+const User = require('../models/User');
 
-/**
- * POST /add
- * @summary Adds a new cost item to the database.
- * @route POST /add
- * @param {string} req.body.description - Description of the cost.
- * @param {string} req.body.category - Cost category (e.g., food, health).
- * @param {string} req.body.userid - ID of the user.
- * @param {number} req.body.sum - Cost amount.
- * @param {string|Date} [req.body.date] - Optional date of the cost (defaults to current date).
- * @returns {Object} 200 - The saved cost item.
- * @returns {Object} 500 - Server error with error message.
- */
-router.post('/add', async (req,res)=>{
-    try{
-        // Destructure fields from the request body
-        const {description, category, userid, sum, date} = req.body;
-        // Create a new Cost instance with the provided data (use current date if not given)
-        const costItem = new Cost({
+// Adds a new cost item to the database, only if the user exists
+router.post('/add', async (req, res) => {
+    // Destructure fields from request body
+    const { userid, description, category, sum, date } = req.body;
+
+    // Validate required fields
+    if (!userid || !description || !category || !sum || !date) {
+        return res.status(400).json({ error: 'Missing required field' });
+    }
+
+    try {
+        // Check if user exists
+        const user = await User.findOne({ id: Number(userid) });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Create new Cost instance
+        const newCost = new Cost({
+            userid: Number(userid),
             description,
             category,
-            userid,
-            sum,
-            date: date || new Date()
+            sum: Number(sum),
+            date: new Date(date)
         });
-        // Save the cost item to MongoDB
-        const savedCost = await costItem.save();
-        // Respond with the saved item
-        res.json(savedCost);
-    } catch(error){
-        // Handle server error        
-        res.status(500).json({error: error.message});
+
+        // Save cost entry to database
+        await newCost.save();
+
+        // Send success response
+        res.status(201).json({ message: 'Cost added successfully', cost: newCost });
+
+    } catch (error) {
+        // Handle unexpected server errors
+        res.status(500).json({ error: error.message });
     }
 });
 
-/**
- * GET /report
- * @summary Returns a monthly cost report grouped by category.
- * @route GET /report
- * @param {string} req.query.id - User ID.
- * @param {number} req.query.year - Year of the report (e.g., 2025).
- * @param {number} req.query.month - Month of the report (1–12).
- * @returns {Object} 200 - JSON report object with grouped costs.
- * @returns {Object} 400 - Missing required query parameters.
- * @returns {Object} 500 - Server error with error message.
- */
+// Returns a monthly cost report grouped by category
 router.get('/report', async (req,res)=>{
     // Destructure query parameters
     const {id, year, month}= req.query;
